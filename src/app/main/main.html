@@ -21,13 +21,24 @@ Coucou {{ main.name }} !
 </div>
 </span>
 <br/><br/> -->
-<button ng-click="main.getTweets()">Actualiser</button><br/>
-<div ng-repeat="tweet in main.tweets | orderBy:reverse: 'tweet.date' track by $index">
-  <div>
-    Author : {{tweet.name}}<br/>
-    Message : {{tweet.message}}<br/>
-    Date: {{tweet.date | date: 'dd/MM/yyyy HH:mm'}}</br/>
-    <button ng-click="main.deleteTweet(tweet)">Delete tweet</button>
+<div class="container">
+  <h1>Tweets :</h1>
+  <button class="btn btn-default" ng-click="main.newTweet()">New tweet</button><br/>
+  <span data-ng-repeat="i in main.range">
+    <button class="btn btn-default" ng-click="main.loadPage(i)">{{i}}</button>
+  </span><br />
+
+  <div ng-repeat="tweet in main.tweets track by $index">
+    <div class="panel panel-default">
+      <div class="panel-body">
+
+
+      Author : {{tweet.name}}<br/>
+      Message : {{tweet.message}}<br/>
+      Date: {{tweet.date | date: 'dd/MM/yyyy HH:mm'}}</br/>
+      </div>
+      <button class="btn btn-default" ng-click="main.deleteTweet(tweet)">Delete tweet</button>
+    </div>
+    <br/>
   </div>
-  <br/>
 </div>

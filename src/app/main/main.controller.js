@@ -1,18 +1,25 @@
 export class MainController {
-  constructor (TwitterService,$interval) {
+  constructor (TwitterService,$interval,$state) {
     'ngInject';
     const intervalValue=3500;
+    this.$state = $state;
     this.$interval = $interval;
     this.twitterService = TwitterService;
-    this.getTweets();
-    this.$interval(()=>{
-      this.getTweets();
+    this.range=[];
+    this.numPage=0;
+    this.getTweets(0);
+    this.intervalId = this.$interval(()=>{
+      this.getTweets(this.numPage);
     },intervalValue);
   }
 
-  getTweets(){
-    this.twitterService.getTweets().then((response) => {
-      this.tweets = response;
+  getTweets(pageNumber){
+    this.twitterService.getTweets(pageNumber).then((response) => {
+      this.tweets = response.tweets;
+      this.range=[];
+      for(let i=0;i<response.maxPage;i=i+1){
+        this.range.push(i);
+      }
     })
   }
 
@@ -20,6 +27,13 @@ export class MainController {
     this.twitterService.deleteTweet(tweet).then(()=>{
       this.getTweets();
     });
-
+  }
+  newTweet(){
+    this.$interval.cancel(this.intervalId);
+    this.$state.go('newTweet');
+  }
+  loadPage(pageNumber){
+    this.numPage = pageNumber;
+    this.getTweets(pageNumber);
   }
 }

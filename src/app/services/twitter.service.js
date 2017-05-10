@@ -5,23 +5,23 @@ export class TwitterService{
     this.url = 'http://10.0.1.137:8080/api'
   }
 
-  getTweets(){
-    return this.$http.get(`${this.url}/tweets`).then(
+  getTweets(pageNumber){
+    return this.$http.get(`${this.url}/tweets?size=30&page=${pageNumber}&sort=createdDate,desc`).then(
       (response) => {
         let formattedTweets = [];
         let tweets = response.data._embedded.tweet;
         tweets.forEach((elem)=>{
-          let formattedTweet = this.createTweet(elem);
+          let formattedTweet = this.createBasicTweet(elem);
           formattedTweets.push(formattedTweet);
         });
 
         //create an array of new tweet
         // return the array
-        return formattedTweets;
+        return {tweets: formattedTweets,maxPage: response.data.page.totalPages};
     });
   }
 
-  createTweet(data){
+  createBasicTweet(data){
     let dateFormatted = new Date(
         data.createdDate.year,
         data.createdDate.monthValue-1,
@@ -41,5 +41,9 @@ export class TwitterService{
 
   deleteTweet(tweet){
     return this.$http.delete(tweet.selfLink);
+  }
+
+  createTweet(tweet){
+    return this.$http.post(`${this.url}/tweets`,tweet,null);
   }
 }

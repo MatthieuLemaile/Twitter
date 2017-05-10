@@ -6,6 +6,12 @@ export function routerConfig ($stateProvider, $urlRouterProvider) {
       templateUrl: 'app/main/main.html',
       controller: 'MainController',
       controllerAs: 'main'
+    })
+    .state('newTweet', {
+      url: '/new-tweet',
+      templateUrl: 'app/newTweet/new-tweet.html',
+      controller: 'NewTweetController',
+      controllerAs: 'newTweet'
     });
 
   $urlRouterProvider.otherwise('/');
