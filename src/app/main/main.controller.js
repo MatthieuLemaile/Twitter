@@ -1,10 +1,25 @@
 export class MainController {
-  constructor () {
+  constructor (TwitterService,$interval) {
     'ngInject';
-    this.array= [1,5,7,2,12,-5,1,8,4];
-    this.date = new Date();
+    const intervalValue=3500;
+    this.$interval = $interval;
+    this.twitterService = TwitterService;
+    this.getTweets();
+    this.$interval(()=>{
+      this.getTweets();
+    },intervalValue);
   }
-  clearInput(){
-    this.name="";
+
+  getTweets(){
+    this.twitterService.getTweets().then((response) => {
+      this.tweets = response;
+    })
+  }
+
+  deleteTweet(tweet){
+    this.twitterService.deleteTweet(tweet).then(()=>{
+      this.getTweets();
+    });
+
   }
 }

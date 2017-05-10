@@ -1,4 +1,4 @@
-Bonjour, nous somme le : {{main.date | date: 'dd/MM/yyyy'}}<br/>
+<!-- Bonjour, nous somme le : {{main.date | date: 'dd/MM/yyyy'}}<br/>
 <input type="text" ng-model="main.name"/>
 
 
@@ -14,9 +14,20 @@ Coucou {{ main.name }} !
 <span>
 <div class="arrayLine"
       ng-class="{'licorne': $even}"
-      ng-repeat="element in main.array | orderBy track by $index">
+      ng-repeat="element in main.array | orderBy track by $index"> -->
   <!-- $odd, $even true/false si pair / impair-->
   <!-- $index, $first, $last -->
-  {{element}} <span ng-if="!$last">,</div>
+  <!-- {{element}} <span ng-if="!$last">,</div>
 </div>
 </span>
+<br/><br/> -->
+<button ng-click="main.getTweets()">Actualiser</button><br/>
+<div ng-repeat="tweet in main.tweets | orderBy:reverse: 'tweet.date' track by $index">
+  <div>
+    Author : {{tweet.name}}<br/>
+    Message : {{tweet.message}}<br/>
+    Date: {{tweet.date | date: 'dd/MM/yyyy HH:mm'}}</br/>
+    <button ng-click="main.deleteTweet(tweet)">Delete tweet</button>
+  </div>
+  <br/>
+</div>
